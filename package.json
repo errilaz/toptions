@@ -1,6 +1,6 @@
 {
   "name": "topt",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Options parsing & nothing else.",
   "license": "MIT",
   "author": {
