@@ -1,0 +1,25 @@
+{
+  "name": "topt",
+  "version": "0.0.1",
+  "description": "Options parsing & nothing else.",
+  "license": "MIT",
+  "author": {
+    "name": "errilaz",
+    "url": "http://github.com/errilaz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/errilaz/topt.git"
+  },
+  "main": "src/topt.ts",
+  "scripts": {
+    "build": "tsc --project .",
+    "clean": "rm -rf lib"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  },
+  "publishConfig": {
+    "main": "lib/topt.js"
+  }
+}
