@@ -1,4 +1,4 @@
-# topt
+# toptions
 
 > Options parsing & that's all
 
