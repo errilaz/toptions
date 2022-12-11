@@ -1,6 +1,6 @@
 {
   "name": "toptions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Options parsing & nothing else.",
   "license": "MIT",
   "author": {
@@ -12,6 +12,7 @@
     "url": "https://github.com/errilaz/toptions.git"
   },
   "main": "src/toptions.ts",
+  "types": "lib/toptions.d.ts",
   "scripts": {
     "build": "tsc --project .",
     "clean": "rm -rf lib"
