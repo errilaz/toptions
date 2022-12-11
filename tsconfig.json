@@ -16,5 +16,5 @@
     "forceConsistentCasingInFileNames": true,
     "noUnusedLocals": false,
   },
-  "files": ["src/topt.ts"]
+  "files": ["src/toptions.ts"]
 }
