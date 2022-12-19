@@ -8,4 +8,7 @@
 - simple API
 - optional config/typing
 
-TODO: full documentation
+## TODO
+
+- [ ] Generate option help
+- [ ] Documentation
