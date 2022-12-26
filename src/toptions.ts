@@ -24,7 +24,6 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
       lookupAlias[option.alias] = name
     }
   }
-  parse.generateHelpTemporary = generateHelpTemporary
   return parse
 
   function parse(argv: string[]) {
@@ -112,10 +111,6 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
       }
     }
     return config as unknown as Options<OptionsDefinition>
-  }
-
-  function generateHelpTemporary(prefix: string) {
-    return definition
   }
 }
 
