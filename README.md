@@ -1,6 +1,6 @@
 # toptions
 
-> Options parsing & that's all
+> Options parsing & nothing else.
 
 - parses options
 - no coercion
@@ -10,5 +10,6 @@
 
 ## TODO
 
-- [ ] Generate option help
+- [ ] Help generator
 - [ ] Documentation
+- [ ] Tests
