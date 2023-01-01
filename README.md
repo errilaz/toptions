@@ -7,9 +7,3 @@
 - no validation
 - simple API
 - optional config/typing
-
-## TODO
-
-- [ ] Help generator
-- [ ] Documentation
-- [ ] Tests
