@@ -127,42 +127,44 @@ export type Options<OptionsDefinition extends OptionsDefinitionBase> = {
   }
 }
 
-export type Help = string | ([string] | [string, string])[]
-
 module options {
   /** Positional string argument. */
-  export function arg(index: number, help?: Help): ArgOption {
-    return { type: "arg", index, help, defaultValue: null }
+  export function arg(index: number): ArgOption
+  export function arg(index: number, defaultValue: string): ArgOptionDefault
+  export function arg(index: number, defaultValue?: string): ArgOption | ArgOptionDefault {
+    return { type: "arg", index, defaultValue }
   }
 
   /** All position string arguments. */
-  export function args(help?: Help): ArgsOption {
-    return { type: "args", help, defaultValue: [] }
+  export function args(defaultValue: string[] = []): ArgsOption {
+    return { type: "args", defaultValue }
   }
 
   /** Named boolean option, no parameters. */
-  export function bit(alias?: string, help?: Help): BitOption {
-    return { type: "bit", alias, help, defaultValue: false }
+  export function bit(alias?: string): BitOption {
+    return { type: "bit", alias, defaultValue: false }
   }
 
   /** Named string option. */
-  export function flag(alias?: string, help?: Help, defaultValue?: string): FlagOption {
-    return { type: "flag", alias, help, defaultValue: defaultValue === undefined ? null : defaultValue }
+  export function flag(alias?: string): FlagOption
+  export function flag(alias: string, defaultValue: string): FlagOptionDefault
+  export function flag(alias?: string, defaultValue?: string): FlagOption | FlagOptionDefault {
+    return { type: "flag", alias, defaultValue }
   }
 
   /** Named list option */
-  export function list(alias?: string, help?: Help): ListOption {
-    return { type: "list", alias, help, defaultValue: [] }
+  export function list(alias?: string, defaultValue: string[] = []): ListOption {
+    return { type: "list", alias, defaultValue }
   }
 
   /** Repeatable named number level. */
-  export function level(alias?: string, help?: Help): LevelOption {
-    return { type: "level", alias, help, defaultValue: 0 }
+  export function level(alias?: string): LevelOption {
+    return { type: "level", alias, defaultValue: 0 }
   }
 
   /** Everything after the --. */
-  export function raw(help?: Help): RawOption {
-    return { type: "raw", help, defaultValue: null }
+  export function raw(): RawOption {
+    return { type: "raw", defaultValue: undefined }
   }
 }
 
@@ -170,9 +172,11 @@ export default options
 
 export type Option =
   | ArgOption
+  | ArgOptionDefault
   | ArgsOption
   | BitOption
   | FlagOption
+  | FlagOptionDefault
   | ListOption
   | LevelOption
   | RawOption
@@ -180,48 +184,53 @@ export type Option =
 export interface ArgOption {
   type: "arg"
   index: number
-  help?: Help
-  defaultValue: string | null
+  defaultValue: string | undefined
+}
+
+export interface ArgOptionDefault {
+  type: "arg"
+  index: number
+  defaultValue: string
 }
 
 export interface ArgsOption {
   type: "args"
-  help?: Help
   defaultValue: string[]
 }
 
 export interface BitOption {
   type: "bit"
   alias?: string
-  help?: Help
   defaultValue: boolean
 }
 
 export interface FlagOption {
   type: "flag"
   alias?: string
-  help?: Help
-  defaultValue: string | null
+  defaultValue: string | undefined
+}
+
+export interface FlagOptionDefault {
+  type: "flag"
+  alias?: string
+  defaultValue: string
 }
 
 export interface ListOption {
   type: "list"
   alias?: string
-  help?: Help
   defaultValue: string[]
 }
 
 export interface LevelOption {
   type: "level"
   alias?: string
-  help?: Help
   defaultValue: number
 }
 
 export interface RawOption {
   type: "raw"
-  help?: Help
-  defaultValue: string | null
+  defaultValue: string | undefined
 }
 
 /** Converts dashed-case to camelCase. */
