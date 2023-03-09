@@ -11,6 +11,13 @@
     "type": "git",
     "url": "https://github.com/errilaz/toptions.git"
   },
+  "keywords": [
+    "command",
+    "options",
+    "cli",
+    "argument",
+    "args"
+  ],
   "main": "src/toptions.ts",
   "scripts": {
     "build": "tsc --project .",
