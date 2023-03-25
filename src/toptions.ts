@@ -5,6 +5,7 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
   // TODO: level max
   let rawOption: null | string = null
   let argsOption: null | string = null
+  let restOption: null | [number, string] = null
   const positional: string[] = []
   const lookupAlias: { [alias: string]: string | undefined } = {}
   const defaultConfig = {} as any
@@ -20,6 +21,9 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
     else if (option.type === "arg") {
       positional[option.index] = name
     }
+    else if (option.type === "rest") {
+      restOption = [option.index, name]
+    }
     else if (option.alias) {
       lookupAlias[option.alias] = name
     }
@@ -33,8 +37,12 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
       positional: []
     }
     let remainingArgs = positional.slice()
+    let consumeRest = false
     for (let a = 0; a < argv.length; a++) {
       const arg = argv[a]
+      if (consumeRest) {
+        config[restOption![1]].push(arg)
+      }
       if (arg === "--") {
         if (rawOption === null) continue
         config[rawOption] = argv.slice(a + 1)
@@ -61,12 +69,18 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
         if (option.type === "flag") {
           if (hasNext) {
             config[name] = argv[++a]
+            if (consumeRest) {
+              config[restOption![1]].push(argv[a])
+            }
           }
           continue
         }
         if (option.type === "list") {
           if (hasNext) {
             config[name].push(argv[++a])
+            if (consumeRest) {
+              config[restOption![1]].push(argv[a])
+            }
           }
           continue
         }
@@ -97,7 +111,12 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
         }
       }
       else {
-        if (remainingArgs.length > 0) {
+        if (restOption?.[0] === a) {
+          consumeRest = true
+          const name = restOption[1]
+          config[name] = []
+        }
+        else if (remainingArgs.length > 0) {
           const [name] = remainingArgs.splice(0, 1)
           config[name] = arg
           continue
@@ -166,6 +185,11 @@ module options {
   export function raw(): RawOption {
     return { type: "raw", defaultValue: undefined }
   }
+
+  /** Consumes parameters after the given positional argument. */
+  export function rest(index: number, defaultValue: string[] = []): RestOption {
+    return { type: "rest", index, defaultValue }
+  }
 }
 
 export default options
@@ -180,6 +204,7 @@ export type Option =
   | ListOption
   | LevelOption
   | RawOption
+  | RestOption
 
 export interface ArgOption {
   type: "arg"
@@ -231,6 +256,12 @@ export interface LevelOption {
 export interface RawOption {
   type: "raw"
   defaultValue: string[] | undefined
+}
+
+export interface RestOption {
+  type: "rest"
+  index: number
+  defaultValue: string[]
 }
 
 /** Converts dashed-case to camelCase. */
