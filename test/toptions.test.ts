@@ -70,7 +70,7 @@ describe("options", () => {
 
     expect(result).toStrictEqual({ foo: ["bar", "--baz", "-z"], unrecognized: {
       named: ["baz", "z"],
-      positional: ["bar"],
+      positional: ["foo", "bar"],
     }})
   })
 
@@ -79,14 +79,23 @@ describe("options", () => {
 
     expect(result).toStrictEqual({ foo: "foo", bar: ["buz", "--baz", "-z"], unrecognized: {
       named: ["baz", "z"],
-      positional: ["buz"]
+      positional: ["bar", "buz"]
     }})
   })
 
-  it("should continue parsing normal options if rest argument is provided", () => {
+  it("should continue parsing normal options if rest option is provided", () => {
     const result = options({ foo: options.flag(), bar: options.rest(0) })(["bar", "--foo", "buz"])
 
-    expect(result).toStrictEqual({ foo: "buz", bar: ["--foo", "buz"], ...noUnrec })
+    expect(result).toStrictEqual({ foo: "buz", bar: ["--foo", "buz"], unrecognized: {
+      named: [],
+      positional: ["bar"]
+    }})
+  })
+
+  it("should parse overlapping positional and rest options", () => {
+    const result = options({ foo: options.arg(0), bar: options.rest(0), baz: options.bit() })(["buz", "--baz"])
+
+    expect(result).toStrictEqual({ foo: "buz", baz: true, bar: ["--baz"], ...noUnrec })
   })
 
   it("should parse many types of options simultaneously", () => {

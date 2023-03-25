@@ -116,7 +116,7 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
           const name = restOption[1]
           config[name] = []
         }
-        else if (remainingArgs.length > 0) {
+        if (remainingArgs.length > 0) {
           const [name] = remainingArgs.splice(0, 1)
           config[name] = arg
           continue
