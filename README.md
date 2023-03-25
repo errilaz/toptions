@@ -43,7 +43,11 @@ const parse = options({
   log: options.level("l"),
   // Parses everything after a --
   nodeargs: options.raw(),
+  // Parses everything after given positional index
+  // Other options will still be parsed
+  // Useful for conditionally passing the rest of the options to another command
+  args: options.rest(0),
 })
 
-const { path, dist, port, exclude, help, log, nodeargs } = parse(process.argv.slice(2))
+const { path, dist, port, exclude, help, log, nodeargs, args } = parse(process.argv.slice(2))
 ```

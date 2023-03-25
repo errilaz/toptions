@@ -65,6 +65,30 @@ describe("options", () => {
     expect(result).toStrictEqual({ foo: ["bar", "baz", "biz"], ...noUnrec })
   })
 
+  it("should parse rest argument", () => {
+    const result = options({ foo: options.rest(0) })(["foo", "bar", "--baz", "-z"])
+
+    expect(result).toStrictEqual({ foo: ["bar", "--baz", "-z"], unrecognized: {
+      named: ["baz", "z"],
+      positional: ["bar"],
+    }})
+  })
+
+  it("should parse rest argument at index 1", () => {
+    const result = options({ foo: options.arg(0), bar: options.rest(1) })(["foo", "bar", "buz", "--baz", "-z"])
+
+    expect(result).toStrictEqual({ foo: "foo", bar: ["buz", "--baz", "-z"], unrecognized: {
+      named: ["baz", "z"],
+      positional: ["buz"]
+    }})
+  })
+
+  it("should continue parsing normal options if rest argument is provided", () => {
+    const result = options({ foo: options.flag(), bar: options.rest(0) })(["bar", "--foo", "buz"])
+
+    expect(result).toStrictEqual({ foo: "buz", bar: ["--foo", "buz"], ...noUnrec })
+  })
+
   it("should parse many types of options simultaneously", () => {
     const result = options({
       foo: options.arg(0),
