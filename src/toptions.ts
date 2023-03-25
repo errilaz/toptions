@@ -5,7 +5,7 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
   // TODO: level max
   let rawOption: null | string = null
   let argsOption: null | string = null
-  const args: string[] = []
+  const positional: string[] = []
   const lookupAlias: { [alias: string]: string | undefined } = {}
   const defaultConfig = {} as any
   for (const name in definition) {
@@ -18,7 +18,7 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
       argsOption = name
     }
     else if (option.type === "arg") {
-      args[option.index] = name
+      positional[option.index] = name
     }
     else if (option.alias) {
       lookupAlias[option.alias] = name
@@ -32,7 +32,7 @@ function options<OptionsDefinition extends OptionsDefinitionBase>(definition: Op
       named: [],
       positional: []
     }
-    let remainingArgs = args.slice()
+    let remainingArgs = positional.slice()
     for (let a = 0; a < argv.length; a++) {
       const arg = argv[a]
       if (arg === "--") {
@@ -230,7 +230,7 @@ export interface LevelOption {
 
 export interface RawOption {
   type: "raw"
-  defaultValue: string | undefined
+  defaultValue: string[] | undefined
 }
 
 /** Converts dashed-case to camelCase. */
