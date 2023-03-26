@@ -1,5 +1,7 @@
 # toptions
 
+<a href="https://www.npmjs.com/package/toptions"><img src="https://img.shields.io/npm/v/toptions?style=flat-square"></a>
+
 > Options parsing & nothing else.
 
 ## Features
