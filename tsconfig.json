@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "lib",
     "target": "es2018",
-    "module": "commonjs",
+    "module": "ESNext",
     "lib": ["ES2020"],
     "esModuleInterop": true,
     "moduleResolution": "node",

@@ -1,6 +1,6 @@
 {
   "name": "toptions",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Options parsing & nothing else.",
   "license": "MIT",
   "author": {
@@ -18,7 +18,8 @@
     "argument",
     "args"
   ],
-  "main": "src/toptions.ts",
+  "type": "module",
+  "exports": "./src/toptions.ts",
   "scripts": {
     "build": "tsc --project .",
     "clean": "rm -rf lib",
@@ -29,8 +30,8 @@
     "vitest": "^0.29.7"
   },
   "publishConfig": {
-    "main": "lib/toptions.js",
-    "types": "lib/toptions.d.ts",
+    "exports": "./lib/toptions.js",
+    "types": "./lib/toptions.d.ts",
     "access": "public"
   }
 }
